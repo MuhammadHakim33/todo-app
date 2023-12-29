@@ -2,7 +2,6 @@ package model;
 
 import controller.HomeController;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 
 public class TodoModel {
     private String todo;
@@ -31,13 +30,17 @@ public class TodoModel {
         completedBtn.setOnAction(e -> {
             TodoModel selectedTodo = HomeController.tableTodoNew.getSelectionModel().getSelectedItem();
             int selectedIndex = HomeController.tableTodoNew.getSelectionModel().getSelectedIndex();
-            System.out.println(selectedTodo);
-            System.out.println(selectedIndex);
+
             if(selectedTodo != null) {
-                if(selectedTodo.getDeleteBtn() == deleteBtn) {
+                if(selectedTodo.getCompletedBtn() == completedBtn) {
                     selectedTodo.setCompleted(true);
-                    HomeController.todoItem.set(selectedIndex ,selectedTodo);
+                    selectedTodo.getCompletedBtn().setText("Batal");
+
+                    HomeController.todoItemCompleted.add(selectedTodo);
+                    HomeController.tableTodoNew.getItems().remove(selectedTodo);
+
                     HomeController.displayTable();
+                    HomeController.displayTableCompleted();
                 }
             }
         });
