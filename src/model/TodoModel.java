@@ -1,69 +1,60 @@
 package model;
 
-import controller.HomeController;
 import javafx.scene.control.Button;
 
 public class TodoModel {
     private String todo;
-    private String category;
+    private CategoryModel category;
     private Boolean completed;
     private Button deleteBtn;
     private Button completedBtn;
 
-    public TodoModel(String todo, String category, Boolean completed, Button deleteBtn, Button completedBtn) {
+    public TodoModel(String todo, CategoryModel category, Boolean completed, Button deleteBtn, Button completedBtn) {
         this.todo = todo;
         this.category = category;
         this.completed = completed;
         this.deleteBtn = deleteBtn;
         this.completedBtn = completedBtn;
 
+//        deleteBtn.setOnAction(e -> {
+//            TodoModel selectedTodo = today.tableTodoNew.getSelectionModel().getSelectedItem();
+//            if(selectedTodo != null) {
+//                if(selectedTodo.getDeleteBtn() == deleteBtn) {
+//                    today.tableTodoNew.getItems().remove(selectedTodo);
+//                }
+//            }
+//        });
 
-        deleteBtn.setOnAction(e -> {
-            TodoModel selectedTodo = HomeController.tableTodoNew.getSelectionModel().getSelectedItem();
-            if(selectedTodo != null) {
-                if(selectedTodo.getDeleteBtn() == deleteBtn) {
-                    HomeController.tableTodoNew.getItems().remove(selectedTodo);
-                }
-            }
-        });
-
-        completedBtn.setOnAction(e -> {
-            TodoModel selectedTodo = HomeController.tableTodoNew.getSelectionModel().getSelectedItem();
-            int selectedIndex = HomeController.tableTodoNew.getSelectionModel().getSelectedIndex();
-
-            if(selectedTodo != null) {
-                if(selectedTodo.getCompletedBtn() == completedBtn) {
-                    selectedTodo.setCompleted(true);
-                    selectedTodo.getCompletedBtn().setText("Batal");
-
-                    HomeController.todoItemCompleted.add(selectedTodo);
-                    HomeController.tableTodoNew.getItems().remove(selectedTodo);
-
-                    HomeController.displayTable();
-                    HomeController.displayTableCompleted();
-                }
-            }
-        });
+//        completedBtn.setOnAction(e -> {
+//            TodoModel selectedTodo = today.tableTodoNew.getSelectionModel().getSelectedItem();
+//            int selectedIndex = today.tableTodoNew.getSelectionModel().getSelectedIndex();
+//
+//            if(selectedTodo != null) {
+//                if(selectedTodo.getCompletedBtn() == completedBtn) {
+//
+//                    selectedTodo.setCompleted(true);
+//                    selectedTodo.getCompletedBtn().setText("Batal");
+//
+//                    today.listTodoCompleted.add(selectedTodo);
+//                    today.tableTodoNew.getItems().remove(selectedTodo);
+//
+//                    today.displayTable();
+//                    today.displayTableCompleted();
+//                }
+//            }
+//        });
     }
 
     public String getTodo() {
         return todo;
     }
 
-    public void setTodo(String todoNew) {
-        this.todo = todoNew;
-    }
-
-    public String getCategory() {
+    public CategoryModel getCategory() {
         return category;
     }
 
     public Boolean getCompleted() {
         return completed;
-    }
-
-    public void setCompleted(Boolean completedNew) {
-        this.completed = completedNew;
     }
 
     public Button getDeleteBtn() {
@@ -72,5 +63,13 @@ public class TodoModel {
 
     public Button getCompletedBtn() {
         return completedBtn;
+    }
+
+    public void setTodo(String todoNew) {
+        this.todo = todoNew;
+    }
+
+    public void setCompleted(Boolean completedNew) {
+        this.completed = completedNew;
     }
 }

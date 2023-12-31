@@ -1,25 +1,27 @@
 package controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import model.CategoryModel;
 import model.TodoModel;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HomeController implements Initializable {
-
-    public static TableView<TodoModel> tableTodoNew;
-    public static TableView<TodoModel> tableTodoNewCompleted;
-    public static TableColumn<TodoModel, String> columnTodoNew;
+public class TodayController extends Controller implements Initializable {
 
     @FXML
     private TextField inputTodo;
+
+    @FXML
+    private MenuButton menuList;
+
+    @FXML
+    private MenuItem menuItem;
 
     @FXML
     private TableView<TodoModel> tableTodo;
@@ -42,36 +44,43 @@ public class HomeController implements Initializable {
     @FXML
     private TableColumn<TodoModel, Button> columnCompletedTest;
 
-    public static ObservableList<TodoModel> todoItem = FXCollections.observableArrayList();
-    public static ObservableList<TodoModel> todoItemCompleted = FXCollections.observableArrayList();
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        tableTodoNew = tableTodo;
+//        tableTodoNew = tableTodo;
         tableTodoNewCompleted = tableTodoCompleted;
+
+        menuList.setText("Today");
+
         columnTodo.setCellValueFactory(new PropertyValueFactory<TodoModel, String>("todo"));
         columnDelete.setCellValueFactory(new PropertyValueFactory<TodoModel, Button>("deleteBtn"));
         columnCompleted.setCellValueFactory(new PropertyValueFactory<TodoModel, Button>("completedBtn"));
 
         columnTodoCompletedTest.setCellValueFactory(new PropertyValueFactory<TodoModel, String>("todo"));
         columnCompletedTest.setCellValueFactory(new PropertyValueFactory<TodoModel, Button>("completedBtn"));
-        displayTable();
+
+//        displayTable(listTodo);
     }
 
     @FXML
-    public void addTodo(ActionEvent event) {
+    public void addTodo() {
         if (!inputTodo.getText().isEmpty()) {
-            todoItem.add(new TodoModel(inputTodo.getText(),"today",false, new Button("Delete"), new Button("Selesai")));
-            displayTable();
+            String input = inputTodo.getText();
+            CategoryModel category = new CategoryModel("today");
+            Button deleteBtn = new Button("Delete");
+            Button completedBtn = new Button("Selesai");
+
+            TodoModel todoItem = new TodoModel(input, category, false, deleteBtn, completedBtn);
+
+            deleteBtn.setOnAction(e -> deleteRow(todoItem));
+            completedBtn.setOnAction(e -> completedRow(todoItem));
+
+            listTodo.add(todoItem);
+            displayTable(listTodo, tableTodo);
             inputTodo.setText("");
         }
     }
 
-    public static void displayTable() {
-        tableTodoNew.setItems(todoItem);
-    }
-
-    public static void displayTableCompleted() {
-        tableTodoNewCompleted.setItems(todoItemCompleted);
+    public void goImportantPage() throws IOException {
+        changePage(menuItem, "view/important.fxml");
     }
 }
