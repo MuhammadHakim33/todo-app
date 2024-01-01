@@ -2,7 +2,7 @@ package model;
 
 import javafx.scene.control.Button;
 
-public class TodoModelTable {
+public class TodoModelTable implements TodoInterface{
     private String _id;
     private String name;
     private CategoryModel category;

@@ -1,6 +1,6 @@
 package model;
 
-public class TodoModelApi {
+public class TodoModelApi implements TodoInterface {
     private String name;
     private String category;
     private Boolean complete;

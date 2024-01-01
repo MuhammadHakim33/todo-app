@@ -5,8 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
-import model.CategoryModel;
-import model.TodoModel;
 import model.TodoModelApi;
 import model.TodoModelTable;
 
@@ -76,6 +74,7 @@ public class Controller  {
                 todoModelApi = null;
 
                 displayTable();
+                displayTableCompleted();
 
 //                selectedTodo.setCompleted(true);
 //                selectedTodo.getCompletedBtn().setText("Batal");
