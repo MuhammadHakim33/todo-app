@@ -44,22 +44,39 @@ public class Controller  {
     }
 
     public void completedRow(TodoModelTable todoModel) throws Exception {
-        TodoModelTable selectedTodo = tableTodoPublic.getSelectionModel().getSelectedItem();
+        TodoModelTable selectedTodo;
+
+        if(todoModel.getCompletedBtn().getText() == "Selesai") {
+            selectedTodo = tableTodoPublic.getSelectionModel().getSelectedItem();
+        } else {
+            selectedTodo = tableTodoPublicCompleted.getSelectionModel().getSelectedItem();
+        }
+
         if(selectedTodo != null) {
             if(selectedTodo.getCompletedBtn() == todoModel.getCompletedBtn()) {
 
                 Gson gson = new Gson();
+                TodoModelApi todoModelApi;
 
-                TodoModelApi todoModelApi = new TodoModelApi(
-                        selectedTodo.getName(),
-                        selectedTodo.getCategory().getCategory(),
-                        true,
-                        selectedTodo.get_id()
-                );
+                if(selectedTodo.getCompletedBtn().getText() == "Selesai") {
+                    todoModelApi = new TodoModelApi(
+                            selectedTodo.getName(),
+                            selectedTodo.getCategory().getCategory(),
+                            true,
+                            selectedTodo.get_id()
+                    );
+                }
+                else {
+                    todoModelApi = new TodoModelApi(
+                            selectedTodo.getName(),
+                            selectedTodo.getCategory().getCategory(),
+                            false,
+                            selectedTodo.get_id()
+                    );
+                }
 
                 String requestBody = gson.toJson(todoModelApi);
 
-                System.out.println(selectedTodo.getCompletedBtn().getText());
                 System.out.println(requestBody);
 
                 HttpRequest request = HttpRequest.newBuilder()
@@ -75,15 +92,6 @@ public class Controller  {
 
                 displayTable();
                 displayTableCompleted();
-
-//                selectedTodo.setCompleted(true);
-//                selectedTodo.getCompletedBtn().setText("Batal");
-//
-//                listTodoCompleted.add(selectedTodo);
-//                tableTodoNew.getItems().remove(selectedTodo);
-//
-////                displayTable(listTodo);
-//                displayTableCompleted();
             }
         }
     }

@@ -26,7 +26,7 @@
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="69.0" prefWidth="300.0" spacing="8.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <children>
             <TextField fx:id="inputTodo" promptText="add task" HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#addTodo" text="Add" />
+            <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addTodo" text="Add" />
          </children>
          <padding>
             <Insets left="8.0" right="8.0" />
