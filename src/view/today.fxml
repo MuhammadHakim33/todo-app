@@ -26,7 +26,7 @@
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="69.0" prefWidth="300.0" spacing="8.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <children>
             <TextField fx:id="inputTodo" promptText="add task" HBox.hgrow="ALWAYS" />
-            <Button fx:id="buttonTodo" mnemonicParsing="false" onAction="#addTodo" text="Add" />
+            <Button mnemonicParsing="false" onAction="#addTodo" text="Add" />
          </children>
          <padding>
             <Insets left="8.0" right="8.0" />
@@ -46,25 +46,49 @@
       </HBox>
       <VBox GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
          <children>
-            <TableView fx:id="tableTodoPrivate" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-              <columns>
-                  <TableColumn fx:id="columnCompleted" prefWidth="65.0" resizable="false" style="-fx-alignment: CENTER;" />
-                <TableColumn fx:id="columnTodo" prefWidth="175.0" resizable="false" style="-fx-alignment: CENTER-LEFT;" />
-                <TableColumn fx:id="columnDelete" prefWidth="59.0" resizable="false" style="-fx-alignment: CENTER;" />
-              </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-            </TableView>
-            <TableView fx:id="tableTodoCompleted" prefHeight="200.0" prefWidth="200.0">
-               <columns>
-                  <TableColumn fx:id="columnCompletedTest" prefWidth="65.0" resizable="false" style="-fx-alignment: CENTER;" />
-                  <TableColumn fx:id="columnTodoCompletedTest" prefWidth="234.0" resizable="false" style="-fx-alignment: CENTER-LEFT;" />
-               </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-            </TableView>
+            <VBox VBox.vgrow="ALWAYS">
+               <children>
+                  <Label text="TABEL TUGAS BELUM SELESAI">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TableView fx:id="tableTodoPrivate" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="columnCompleted" prefWidth="65.0" resizable="false" style="-fx-alignment: CENTER;" />
+                      <TableColumn fx:id="columnTodo" prefWidth="175.0" resizable="false" style="-fx-alignment: CENTER-LEFT;" />
+                      <TableColumn fx:id="columnDelete" prefWidth="59.0" resizable="false" style="-fx-alignment: CENTER;" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label text="TABEL TUGAS SELESAI">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TableView fx:id="tableTodoPrivateCompleted" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="columnCompletedCompleted" prefWidth="65.0" resizable="false" style="-fx-alignment: CENTER;" />
+                        <TableColumn fx:id="columnTodoCompleted" prefWidth="234.0" resizable="false" style="-fx-alignment: CENTER-LEFT;" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </VBox>
          </children>
       </VBox>
    </children>

@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import model.CategoryModel;
 import model.TodoModel;
 import model.TodoModelApi;
 import model.TodoModelTable;
@@ -20,10 +21,10 @@ import java.util.List;
 public class Controller  {
 
     public TableView<TodoModelTable> tableTodoPublic;
-    public TableView<TodoModel> tableTodoNewCompleted;
+    public TableView<TodoModelTable> tableTodoPublicCompleted;
 
     public ObservableList<TodoModelTable> listTodo = FXCollections.observableArrayList();
-    public ObservableList<TodoModel> listTodoCompleted = FXCollections.observableArrayList();
+    public ObservableList<TodoModelTable> listTodoCompleted = FXCollections.observableArrayList();
 
     public void deleteRow(TodoModelTable todoModel) throws Exception {
         TodoModelTable selectedTodo = tableTodoPublic.getSelectionModel().getSelectedItem();
@@ -60,6 +61,7 @@ public class Controller  {
 
                 String requestBody = gson.toJson(todoModelApi);
 
+                System.out.println(selectedTodo.getCompletedBtn().getText());
                 System.out.println(requestBody);
 
                 HttpRequest request = HttpRequest.newBuilder()
@@ -70,6 +72,8 @@ public class Controller  {
                 HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
                 System.out.println(response.statusCode());
                 System.out.println(response.body());
+
+                todoModelApi = null;
 
                 displayTable();
 
@@ -83,6 +87,29 @@ public class Controller  {
 //                displayTableCompleted();
             }
         }
+    }
+
+    public void insert(String inputTodo) throws Exception {
+        Gson gson = new Gson();
+
+        TodoModelApi todoModelApi = new TodoModelApi(inputTodo,"today",false,"00000");
+
+        String requestBody = gson.toJson(todoModelApi);
+        System.out.println(requestBody);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .uri(URI.create("https://todo-api-omega-one.vercel.app/api/v1/todos"))
+                .header("Content-Type", "application/json")
+                .build();
+
+        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.statusCode());
+        System.out.println(response.headers());
+
+        todoModelApi = null;
+
+        displayTable();
     }
 
     public void displayTable() throws Exception {
@@ -132,12 +159,49 @@ public class Controller  {
                 }
             });
 
-
             listTodo.add(todoItem);
         }
     }
 
-    public void displayTableCompleted() {
-        tableTodoNewCompleted.setItems(listTodoCompleted);
+    public void displayTableCompleted() throws Exception {
+        listTodoCompleted.clear();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("https://todo-api-omega-one.vercel.app/api/v1/todos?complete=true"))
+                .build();
+
+        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        int responelength = response.body().length();
+        List<String> responseList = new ArrayList<String>(Arrays.asList(response.body().substring(1, responelength-2).split("},")));
+
+        Gson gson = new Gson();
+
+        for (String i: responseList) {
+            TodoModelApi todoModelApi = gson.fromJson(i + "}", TodoModelApi.class);
+
+            Button completedBtn = new Button("Batal");
+
+            TodoModelTable todoItem = new TodoModelTable(
+                    todoModelApi.get_id(),
+                    todoModelApi.getName(),
+                    todoModelApi.getCategory(),
+                    todoModelApi.getComplete(),
+                    null,
+                    completedBtn
+            );
+
+
+            completedBtn.setOnAction(e -> {
+                try {
+                    completedRow(todoItem);
+                }
+                catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            });
+
+            listTodoCompleted.add(todoItem);
+        }
     }
 }

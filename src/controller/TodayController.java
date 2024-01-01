@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.TodoModel;
 import model.TodoModelTable;
 
 import java.net.URL;
@@ -14,12 +13,6 @@ public class TodayController extends Controller implements Initializable {
 
     @FXML
     private TextField inputTodo;
-
-    @FXML
-    private MenuButton menuList;
-
-    @FXML
-    private MenuItem menuItem;
 
     @FXML
     private TableView<TodoModelTable> tableTodoPrivate;
@@ -34,31 +27,31 @@ public class TodayController extends Controller implements Initializable {
     private TableColumn<TodoModelTable, Button> columnDelete;
 
     @FXML
-    private TableView<TodoModel> tableTodoCompleted;
+    private TableView<TodoModelTable> tableTodoPrivateCompleted;
 
     @FXML
-    private TableColumn<TodoModel, String> columnTodoCompletedTest;
+    private TableColumn<TodoModelTable, String> columnTodoCompleted;
 
     @FXML
-    private TableColumn<TodoModel, Button> columnCompletedTest;
+    private TableColumn<TodoModelTable, Button> columnCompletedCompleted;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tableTodoPublic = tableTodoPrivate;
-//        tableTodoNewCompleted = tableTodoCompleted;
-//
-//        menuList.setText("Today");
-//
+        tableTodoPublicCompleted = tableTodoPrivateCompleted;
+
         columnTodo.setCellValueFactory(new PropertyValueFactory<>("name"));
         columnDelete.setCellValueFactory(new PropertyValueFactory<>("deleteBtn"));
         columnCompleted.setCellValueFactory(new PropertyValueFactory<>("completedBtn"));
-//
-//        columnTodoCompletedTest.setCellValueFactory(new PropertyValueFactory<TodoModel, String>("todo"));
-//        columnCompletedTest.setCellValueFactory(new PropertyValueFactory<TodoModel, Button>("completedBtn"));
+
+        columnTodoCompleted.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnCompletedCompleted.setCellValueFactory(new PropertyValueFactory<>("completedBtn"));
 
         try {
             displayTable();
+            displayTableCompleted();
             tableTodoPrivate.setItems(listTodo);
+            tableTodoPrivateCompleted.setItems(listTodoCompleted);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -67,20 +60,14 @@ public class TodayController extends Controller implements Initializable {
 
     @FXML
     public void addTodo() {
-//        if (!inputTodo.getText().isEmpty()) {
-//            String input = inputTodo.getText();
-//            CategoryModel category = new CategoryModel("today");
-//            Button deleteBtn = new Button("Delete");
-//            Button completedBtn = new Button("Selesai");
-//
-//            TodoModel todoItem = new TodoModel(input, category, false, deleteBtn, completedBtn);
-//
-//            deleteBtn.setOnAction(e -> deleteRow(todoItem));
-//            completedBtn.setOnAction(e -> completedRow(todoItem));
-//
-//            listTodo.add(todoItem);
-//            displayTable(listTodo, tableTodo);
-//            inputTodo.setText("");
-//        }
+        try {
+            if (!inputTodo.getText().isEmpty()) {
+                insert(inputTodo.getText());
+                inputTodo.setText("");
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
