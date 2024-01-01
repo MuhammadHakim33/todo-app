@@ -1,14 +1,12 @@
 package controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.CategoryModel;
 import model.TodoModel;
+import model.TodoModelTable;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -24,16 +22,16 @@ public class TodayController extends Controller implements Initializable {
     private MenuItem menuItem;
 
     @FXML
-    private TableView<TodoModel> tableTodo;
+    private TableView<TodoModelTable> tableTodoPrivate;
 
     @FXML
-    private TableColumn<TodoModel, String> columnTodo;
+    private TableColumn<TodoModelTable, String> columnTodo;
 
     @FXML
-    private TableColumn<TodoModel, Button> columnCompleted;
+    private TableColumn<TodoModelTable, Button> columnCompleted;
 
     @FXML
-    private TableColumn<TodoModel, Button> columnDelete;
+    private TableColumn<TodoModelTable, Button> columnDelete;
 
     @FXML
     private TableView<TodoModel> tableTodoCompleted;
@@ -46,41 +44,43 @@ public class TodayController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        tableTodoNew = tableTodo;
-        tableTodoNewCompleted = tableTodoCompleted;
+        tableTodoPublic = tableTodoPrivate;
+//        tableTodoNewCompleted = tableTodoCompleted;
+//
+//        menuList.setText("Today");
+//
+        columnTodo.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnDelete.setCellValueFactory(new PropertyValueFactory<>("deleteBtn"));
+        columnCompleted.setCellValueFactory(new PropertyValueFactory<>("completedBtn"));
+//
+//        columnTodoCompletedTest.setCellValueFactory(new PropertyValueFactory<TodoModel, String>("todo"));
+//        columnCompletedTest.setCellValueFactory(new PropertyValueFactory<TodoModel, Button>("completedBtn"));
 
-        menuList.setText("Today");
-
-        columnTodo.setCellValueFactory(new PropertyValueFactory<TodoModel, String>("todo"));
-        columnDelete.setCellValueFactory(new PropertyValueFactory<TodoModel, Button>("deleteBtn"));
-        columnCompleted.setCellValueFactory(new PropertyValueFactory<TodoModel, Button>("completedBtn"));
-
-        columnTodoCompletedTest.setCellValueFactory(new PropertyValueFactory<TodoModel, String>("todo"));
-        columnCompletedTest.setCellValueFactory(new PropertyValueFactory<TodoModel, Button>("completedBtn"));
-
-//        displayTable(listTodo);
+        try {
+            displayTable();
+            tableTodoPrivate.setItems(listTodo);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     public void addTodo() {
-        if (!inputTodo.getText().isEmpty()) {
-            String input = inputTodo.getText();
-            CategoryModel category = new CategoryModel("today");
-            Button deleteBtn = new Button("Delete");
-            Button completedBtn = new Button("Selesai");
-
-            TodoModel todoItem = new TodoModel(input, category, false, deleteBtn, completedBtn);
-
-            deleteBtn.setOnAction(e -> deleteRow(todoItem));
-            completedBtn.setOnAction(e -> completedRow(todoItem));
-
-            listTodo.add(todoItem);
-            displayTable(listTodo, tableTodo);
-            inputTodo.setText("");
-        }
-    }
-
-    public void goImportantPage() throws IOException {
-        changePage(menuItem, "view/important.fxml");
+//        if (!inputTodo.getText().isEmpty()) {
+//            String input = inputTodo.getText();
+//            CategoryModel category = new CategoryModel("today");
+//            Button deleteBtn = new Button("Delete");
+//            Button completedBtn = new Button("Selesai");
+//
+//            TodoModel todoItem = new TodoModel(input, category, false, deleteBtn, completedBtn);
+//
+//            deleteBtn.setOnAction(e -> deleteRow(todoItem));
+//            completedBtn.setOnAction(e -> completedRow(todoItem));
+//
+//            listTodo.add(todoItem);
+//            displayTable(listTodo, tableTodo);
+//            inputTodo.setText("");
+//        }
     }
 }
